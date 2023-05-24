@@ -1,17 +1,40 @@
-import React from "react";
+import React , { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
+import { validarDireccion, validarCiudad, validarProvincia } from "./validaciones";
 
-const DatosEntrega = () => {
-  return (
+const DatosEntrega = ({updateStep}) => {
+  const [adress, setAdress] = useState ({
+    value: '',
+    valid: null
+  })
+
+  const [city, setCity] = useState ({
+    value: '',
+    valid: null
+  })
+
+  const [province, setProvince] = useState ({
+    value: '',
+    valid: null
+  })
+
+
+  return (    
     <Box
       component="form"
-      autocomplete="off"
+      autoComplete="off"
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
       }}
+      onSubmit={(e) => {
+        e.preventDefault()
+        updateStep(3)
+        console.log(adress, city, province)
+      }
+    }
     >
       <TextField
         label="Dirección"
@@ -19,6 +42,14 @@ const DatosEntrega = () => {
         fullWidth
         margin="dense"
         type="text"
+        value={adress.value}
+        onChange={(input) =>{
+          const value = input.target.value
+          const valid = validarDireccion(value)
+          setAdress({value, valid})
+        }}
+        error={adress.valid === false}
+          helperText={adress.valid === false && "Ingresa al menos 4 caracteres"}
       />
       <TextField
         label="Ciudad"
@@ -26,6 +57,14 @@ const DatosEntrega = () => {
         fullWidth
         margin="dense"
         type="text"
+        value={city.value}
+        onChange={(input) =>{
+          const value = input.target.value
+          const valid = validarCiudad(value)
+          setCity({value, valid})
+        }}
+        error={city.valid === false}
+          helperText={city.valid === false && "Ingresa al menos 4 caracteres"}
       />
       <TextField
         label="Estado/Provincia"
@@ -33,6 +72,14 @@ const DatosEntrega = () => {
         fullWidth
         margin="dense"
         type="text"
+        value={province.value}
+        onChange={(input) =>{
+          const value = input.target.value
+          const valid = validarProvincia(value)
+          setProvince({value, valid})
+        }}
+        error={province.valid === false}
+          helperText={province.valid === false && "Ingresa al menos 4 caracteres"}
       />
       <Button variant="contained" type="submit">
         Crear cuenta
