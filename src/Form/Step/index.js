@@ -1,6 +1,7 @@
 import React, {useState, useContext} from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { CounterContext } from "../../Context";
+import useAuth from "../../Hook/useAuth";
 
 
 const Step = ({data, step}) => {
@@ -9,7 +10,8 @@ const Step = ({data, step}) => {
 
     const counterData = useContext(CounterContext)
 
-    console.log(counterData)
+    const acces = useAuth("counterData.user.jwt")
+    console.log(acces)
   
   return (
       <Box
